@@ -17,7 +17,7 @@ const SidebarNavigationItems = [
 	{'key': 3, 'name': 'Signin', 'icon': 'chat_bubble_outline', 'action': 'signin', 'active': false}
 ];
 
-class App extends Component {
+export default class App extends Component {
 	constructor(props) {
 		super(props);
 
@@ -49,7 +49,7 @@ class App extends Component {
 	}
 
 	render() {
-		if(this.state.isUserLogged){
+		if(!this.state.isUserLogged){
 			return (
 				<AppContainer>
 					Welcome again {this.state.user.username}	 
@@ -70,5 +70,3 @@ class App extends Component {
 		);
 	} 
 }
-
-export default App;

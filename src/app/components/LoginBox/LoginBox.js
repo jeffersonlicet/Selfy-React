@@ -4,14 +4,15 @@ import { API } from '../../Constants';
 import './LoginBox.css';
 import '../Shadow/Shadow.css';
 
-class LoginBox extends React.Component {
+export default class LoginBox extends React.Component {
+    state = { username: '', password: '', busy: false }
+    
     constructor(props) {
         super(props);
         
         this.callSignin     = this.callSignin.bind(this);
         this.handleKeyUp    = this.handleKeyUp.bind(this);
         this.handleChange   = this.handleChange.bind(this);
-        this.state          = { username: null, password: null, busy: false}
     }
 
     componentDidMount() {
@@ -36,12 +37,12 @@ class LoginBox extends React.Component {
         let usernameVal = this.state.username;
         let passwordVal = this.state.password;
 
-        if(usernameVal == null) {
+        if(!usernameVal) {
             this.usernameInput.focus();
             return;
         }
 
-        if(passwordVal == null) {
+        if(!passwordVal) {
             this.passwordInput.focus();
             return;
         }
@@ -70,11 +71,10 @@ class LoginBox extends React.Component {
 
                 else {
                     context.props.closeLoadingModal();
-                    alert(response.report);
                     context.setState({busy: false});
-                    this.usernameInput.value = "";
-                    this.passwordInput.value = "";
                     this.usernameInput.focus();
+
+                    alert(response.report);
                 }
             }
         );
@@ -101,5 +101,3 @@ class LoginBox extends React.Component {
             </div>);
     }
 }
-
-export default LoginBox;
