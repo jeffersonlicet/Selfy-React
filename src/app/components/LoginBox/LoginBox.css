@@ -2,17 +2,13 @@
     margin-top:20px;
 }
 
-.login-form h1, .login-form p{
-    
-}
-
 .login-form h1 {
     font-weight: lighter;
     font-size: 50px;
     text-align: center;
 }
 
-.login-form .card { border:none;}
+.login-form .card { border:none; }
 
 .login-form label { 
     text-transform: uppercase;

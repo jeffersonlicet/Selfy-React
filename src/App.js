@@ -18,18 +18,19 @@ const SidebarNavigationItems = [
 ];
 
 class App extends Component {
-	constructor(props){
+	constructor(props) {
 		super(props);
+
+		this.onSignin = this.onSignin.bind(this);
 		this.openLoadingModal  = this.openLoadingModal.bind(this);
 		this.closeLoadingModal = this.closeLoadingModal.bind(this);
-		this.onSignin = this.onSignin.bind(this);
 	}
 
 	componentWillMount() {
 		this.setState({ 
-			isUserLogged: cookie.load('isUserLogged'),
+			user: cookie.load('user'),
 			isLoadingModalOpened: false,
-			user: cookie.load('user')
+			isUserLogged: cookie.load('isUserLogged'),
 		});
 	}
 
@@ -48,10 +49,10 @@ class App extends Component {
 	}
 
 	render() {
-		if(this.state.isUserLogged) {
+		if(this.state.isUserLogged){
 			return (
 				<AppContainer>
-					Bienvenido de vuelta {this.state.user.username}	 
+					Welcome again {this.state.user.username}	 
 				</AppContainer>
 			);
 		}

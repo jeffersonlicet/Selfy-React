@@ -1,5 +1,6 @@
 import React from 'react';
 import { API } from '../../Constants';
+
 import './LoginBox.css';
 import '../Shadow/Shadow.css';
 
@@ -7,25 +8,19 @@ class LoginBox extends React.Component {
     constructor(props) {
         super(props);
         
-        this.state = {
-            username: null,
-            password: null,
-            busy: false
-        }
-
-        this.callSignin = this.callSignin.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleKeyUp = this.handleKeyUp.bind(this);
+        this.callSignin     = this.callSignin.bind(this);
+        this.handleKeyUp    = this.handleKeyUp.bind(this);
+        this.handleChange   = this.handleChange.bind(this);
+        this.state          = { username: null, password: null, busy: false}
     }
 
     componentDidMount() {
         this.usernameInput.focus();
     }
 
-    handleKeyUp(event)
-    {   
-        if(event.key === 'Enter'){
-            if(event.target.id === "username"){
+    handleKeyUp(event) {   
+        if(event.key === 'Enter') {
+            if(event.target.id === "username") {
                 this.passwordInput.focus();
             } else { this.callSignin(); }
         }
@@ -54,18 +49,19 @@ class LoginBox extends React.Component {
         this.setState({busy: true});
         this.props.openLoadingModal();
         
+        let context = this;
         let formData = new FormData();
+        
         formData.append('username', usernameVal);
         formData.append('password', passwordVal);
 
-        let context = this;
         fetch(API + '/user/login', 
             {
                 method: 'POST',
                 body: formData
             }
         )
-        .then((response) => {return response.json()})
+        .then(response => { return response.json(); })
         .then(response => {
                 if(response.status) {                    
                     context.setState({busy: false});
