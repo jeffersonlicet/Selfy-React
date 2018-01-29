@@ -49,7 +49,7 @@ export default class App extends Component {
 	}
 
 	render() {
-		if(!this.state.isUserLogged){
+		if(this.state.isUserLogged){
 			return (
 				<AppContainer>
 					Welcome again {this.state.user.username}	 
