@@ -1,15 +1,23 @@
 // import logic 
 import React, { Component } from 'react';
-import cookie from 'react-cookies';
+import {
+	BrowserRouter as Router,
+	Route
+  } from 'react-router-dom';
 
 //import css
 import './app/Normalize.css';
 import './app/App.css';
 
 //import components
-import LoginBox from './app/components/LoginBox/LoginBox';
 import AppContainer from './app/components/AppContainer/AppContainer';
-import LoadingModal from './app/components/LoadingModal/LoadingModal';
+
+//import middlewares
+import Authenticated from './app/middlewares/Authenticated';
+
+//import activities
+import Home from './app/activities/Home';
+import Login from './app/activities/Login';
 
 const SidebarNavigationItems = [
 	{'key': 1, 'name': 'Home', 'icon': 'public', 'action': 'goHome', 'active': true},
@@ -17,56 +25,20 @@ const SidebarNavigationItems = [
 	{'key': 3, 'name': 'Signin', 'icon': 'chat_bubble_outline', 'action': 'signin', 'active': false}
 ];
 
-export default class App extends Component {
-	constructor(props) {
-		super(props);
-
-		this.onSignin = this.onSignin.bind(this);
-		this.openLoadingModal  = this.openLoadingModal.bind(this);
-		this.closeLoadingModal = this.closeLoadingModal.bind(this);
-	}
-
-	componentWillMount() {
-		this.setState({ 
-			user: cookie.load('user'),
-			isLoadingModalOpened: false,
-			isUserLogged: cookie.load('isUserLogged'),
-		});
-	}
-
-	openLoadingModal() {
-		this.setState({isLoadingModalOpened: true});
-	}
-
-	closeLoadingModal() {
-		this.setState({isLoadingModalOpened: false});
-	}
-	
-	onSignin(user) {
-		cookie.save('user', user);
-		cookie.save('isUserLogged', true);
-		this.setState({isUserLogged : true});
-	}
-
+export default class App extends Component {	
 	render() {
-		if(this.state.isUserLogged){
-			return (
+		return ( 
+			<Router>
 				<AppContainer>
-					Welcome again {this.state.user.username}	 
+					
+					<Authenticated>
+						<Route exact path="/" component={Home}  />
+					</Authenticated>
+
+					<Route path="/login"  component={Login} />
 				</AppContainer>
-			);
-		}
-	 
-		return (
-			<AppContainer>
-				<LoadingModal 
-					isVisible={this.state.isLoadingModalOpened} /> 
-				
-				<LoginBox 
-					onSignin={this.onSignin} 
-					openLoadingModal={this.openLoadingModal}
-					closeLoadingModal={this.closeLoadingModal} /> 
-			</AppContainer>
+			</Router>
 		);
-	} 
+	}
 }
+
